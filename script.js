@@ -61,7 +61,7 @@ visitElement.textContent = data.length + " visits"
 
 
 const TOTAL_MINUTES = 1440;
-
+const INTERVAL = parseFloat((15 / TOTAL_MINUTES * 100).toFixed(2))
 
 function getMinutes(dateStr) {
   const date = new Date(dateStr);
@@ -117,11 +117,14 @@ sections.forEach((val, idx) => {
       empty.style.width = `${val.to - val.from}%`
       timeline.appendChild(empty)
     } else {
-      if ()
-      const empty = document.createElement("div")
-      empty.className = `empty${idx} empty-space`
-      empty.style.width = `${val.to - val.from}%`
-      timeline.appendChild(empty)
+      if ((sections[idx+1].from - sections[idx-1].to) < INTERVAL) {
+      } else {
+        const empty = document.createElement("div")
+        empty.className = `empty${idx} empty-space`
+        empty.style.width = `${val.to - val.from}%`
+        timeline.appendChild(empty)
+
+      }
     }
   }
 })
