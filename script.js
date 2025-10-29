@@ -96,10 +96,12 @@ for (let i = 0; i < percentages.length; i++) {
     sections.push({ from: current.to, to: 100 })
     continue
   }
+
   const current = percentages[i];
   const next = percentages[i + 1];
   sections.push(current);
-  if (next) {
+  const gap = next.from - current.to
+  if (next && gap > INTERVAL) {
     sections.push({ from: current.to, to: next.from }); // gap between them
   }
 }
@@ -110,22 +112,11 @@ sections.forEach((val, idx) => {
     const circle = document.createElement("div")
     circle.className = "visit"
     timeline.appendChild(circle)
-  } else {  
-    if (idx === 0 || idx + 1 === sections.length) {
-      const empty = document.createElement("div")
-      empty.className = `empty${idx} empty-space`
-      empty.style.width = `${val.to - val.from}%`
-      timeline.appendChild(empty)
-    } else {
-      if ((sections[idx+1].from - sections[idx-1].to) < INTERVAL) {
-      } else {
-        const empty = document.createElement("div")
-        empty.className = `empty${idx} empty-space`
-        empty.style.width = `${val.to - val.from}%`
-        timeline.appendChild(empty)
-
-      }
-    }
+  } else {      
+    const empty = document.createElement("div")
+    empty.className = `empty${idx} empty-space`
+    empty.style.width = `${val.to - val.from}%`
+    timeline.appendChild(empty)
   }
 })
 
