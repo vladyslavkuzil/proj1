@@ -1,0 +1,48 @@
+.container {
+    display: flex;
+    flex-direction: column;
+}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+.timeline {
+    display: flex;
+    width: 100%;
+    height: 30px;
+    background: #c8f3e1;
+    align-items: center;
+    /*justify-content: space-evenly;*/
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.data {
+    display: flex;
+    width: 100%;
+    align-items:center;
+    justify-content: space-between;
+    height: 30px;
+    background: white;
+    font-weight: bold;
+    opacity: 0.6;
+}
+
+
+
+.visit {
+   
+    height: 80%;
+    border-radius: 50%;
+    background-color: #21b483;
+    top: 0;
+    transform: translateX(-50%);
+    min-width: 24px;
+}
+
+.empty-space {
+    flex-grow: 1;
+    min-width: 5px;
+    /* мінімальна пустота */
+}
+
+
