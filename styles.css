@@ -11,7 +11,6 @@ body {
     height: 30px;
     background: #c8f3e1;
     align-items: center;
-    /*justify-content: space-evenly;*/
     border-radius: 20px;
     overflow: hidden;
 }
@@ -42,7 +41,6 @@ body {
 .empty-space {
     flex-grow: 1;
     min-width: 5px;
-    /* мінімальна пустота */
 }
 
 
