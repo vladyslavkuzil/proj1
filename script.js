@@ -105,12 +105,13 @@ for (let i = 0; i < percentages.length; i++) {
     sections.push({ from: current.to, to: next.from }); // gap between them
   }
 }
-
+let zIdx = 0
 sections.sort((a,b) => (a.from - b.from));
 sections.forEach((val, idx) => {
   if (val.hasOwnProperty("mid")) {
     const circle = document.createElement("div")
     circle.className = "visit"
+    circle.style.zIndex = `${zIdx++}`
     timeline.appendChild(circle)
   } else {      
     const empty = document.createElement("div")

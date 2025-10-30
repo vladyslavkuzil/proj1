@@ -29,14 +29,14 @@ body {
 
 
 .visit {
-   
     height: 80%;
     border-radius: 50%;
     background-color: #21b483;
     top: 0;
-    transform: translateX(-50%);
     min-width: 24px;
 }
+
+    
 
 .empty-space {
     flex-grow: 1;
