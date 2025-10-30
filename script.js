@@ -1,3 +1,6 @@
+const dateElement = document.getElementById("date")
+const visitElement = document.getElementById("numberOfVisits")
+const timeline = document.getElementById("timeline")
 const data = [{
     "from": "2023-05-30T05:56:28+00:00",
     "to": "2023-05-30T05:57:10+00:00",
@@ -33,31 +36,25 @@ const data = [{
     "to": "2023-05-30T20:43:31+00:00",
 }]
 
-
-
-
-const dateElement = document.getElementById("date")
-const visitElement = document.getElementById("numberOfVisits")
-const timeline = document.getElementById("timeline")
-
 const date = new Date(data[0].from)
 const formatter = new Intl.DateTimeFormat("en-GB", {
     weekday: "short",
     day: "2-digit",
     month: "short",
 })
-
 const parts = formatter.formatToParts(date)
-
 const weekday = parts.find(p => p.type === "weekday").value
 const day = parts.find(p => p.type === "day").value
 const month = parts.find(p => p.type === "month").value
-
-
 const formattedDate = weekday + " " + day + " " + month
-
 dateElement.textContent = formattedDate
 visitElement.textContent = data.length + " visits"
+
+
+
+
+
+
 
 
 const TOTAL_MINUTES = 1440;
@@ -85,41 +82,56 @@ data.forEach((val, i) => {
 
 
 for (let i = 0; i < percentages.length; i++) {
-  if (i === 0) {
-    const current = percentages[i];
-    sections.push({ from: 0, to: current.from })
-    sections.push(current);
-    continue; 
-  } else if (i + 1 === percentages.length) {
-    const current = percentages[i];
-    sections.push(current);
-    sections.push({ from: current.to, to: 100 })
-    continue
-  }
-
   const current = percentages[i];
   const next = percentages[i + 1];
-  sections.push(current);
-  const gap = next.from - current.to
-  if (next && gap > INTERVAL) {
-    sections.push({ from: current.to, to: next.from }); // gap between them
+
+  if (i === 0 && current.from > 0) {
+    sections.push({ from: 0, to: current.from });
+  }
+
+  if (next) {
+    const gap = next.from - current.to;
+    const percentGap = next.mid - current.to;
+
+    if (gap <= INTERVAL) {
+      sections.push({ ...current, gap: percentGap});
+    } else {
+      sections.push(current);
+      if (gap > 0) {
+        sections.push({ from: current.to, to: next.from });
+      }
+    }
+  } else {
+    sections.push(current);
+    if (current.to < 100) {
+      sections.push({ from: current.to, to: 100 });
+    }
   }
 }
-let zIdx = 0
-sections.sort((a,b) => (a.from - b.from));
+sections.sort((a, b) => (a.from - b.from));
+
+
+
+let zIdx = 1;
+
 sections.forEach((val, idx) => {
   if (val.hasOwnProperty("mid")) {
-    const circle = document.createElement("div")
-    circle.className = "visit"
-    circle.style.zIndex = `${zIdx++}`
-    timeline.appendChild(circle)
-  } else {      
-    const empty = document.createElement("div")
-    empty.className = `empty${idx} empty-space`
-    empty.style.width = `${val.to - val.from}%`
-    timeline.appendChild(empty)
+    const circle = document.createElement("div");
+    circle.className = "visit";
+    if (val.hasOwnProperty("gap")) {
+      const overlap = val.gap; 
+      circle.style.marginRight = `-8px`; 
+    }
+
+    circle.style.zIndex = zIdx++; 
+    timeline.appendChild(circle);
+  } else {
+    const empty = document.createElement("div");
+    empty.className = "empty-space";
+    empty.style.width = `${val.to - val.from}%`; 
+    timeline.appendChild(empty);
   }
-})
+});
 
 
 
